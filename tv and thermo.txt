@@ -1,0 +1,128 @@
+CREATE EXTERNAL TABLE `connected_room_thermostat`(
+  `tstatmeasurementdate` string, 
+  `tstatmeasurementtime` string, 
+  `tstatreceivername` string, 
+  `tstatmeasurementtype` string, 
+  `thingid` INT, 
+  `tempreature` INT)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+WITH SERDEPROPERTIES (
+  'serialization.format' = ' ',
+  'field.delim' = ' ',
+  'collection.delim' = 'undefined',
+  'mapkey.delim' = 'undefined'
+) LOCATION 's3://connected-room-logs/thermostat-logs/'
+TBLPROPERTIES ('has_encrypted_data'='false')
+
+SELECT * FROM "connectedroomdb"."connected_room_thermostat" where tempreature between 65 and 68;
+
+
+CREATE EXTERNAL TABLE IF NOT EXISTS connected_room_tvchannel_view (
+  `date` string,
+  `type` string,
+  `status` string,
+  `duration` INT,
+  `channel` string,
+  `volume` INT 
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+WITH SERDEPROPERTIES (
+  'serialization.format' = ' ',
+  'field.delim' = ' ',
+  'collection.delim' = 'undefined',
+  'mapkey.delim' = 'undefined'
+) LOCATION 's3://connected-room-logs/tv-logs/channels/'
+TBLPROPERTIES ('has_encrypted_data'='false')
+
+
+select channel,duration from "connected_room_tvchannel_view" where duration = (select min(duration) from "connected_room_tvchannel_view")
+
+
+
+10-15 13:39:28.862 POP_EPG_SVC: PPLTNG epg amc
+Date   Time         type  currnetstatus currentchannel    Volume                 
+01-03 04:13:55.323   TV     ON               5               15
+=======
+01-03 13:39:29.019 TV ON hbo 15
+01-03 13:39:29.791 TV ON history 15
+01-03 13:39:29.946 TV ON history 15
+01-03 13:39:30.251 TV ON history 15
+01-03 13:39:30.405 TV ON history 15
+01-03 13:39:30.758 TV ON hbo 15
+01-03 13:39:30.910 TV ON hbo 15
+01-03 13:39:31.060 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON cnn 15
+01-03 04:14:55.323 TV ON cnn 15
+01-03 04:14:55.323 TV ON amc 15
+01-03 04:14:55.323 TV ON amc 15
+01-03 04:14:55.323 TV ON hln 15
+01-03 04:14:55.323 TV ON hln 15
+01-03 04:14:55.323 TV ON hln 15
+01-03 04:14:55.323 TV ON lifetime 15
+01-03 04:14:55.323 TV ON lifetime 15
+01-03 04:14:55.323 TV ON lifetime 15
+01-03 04:14:55.323 TV ON mtv 15
+01-03 04:14:55.323 TV ON mtv 15
+01-03 04:14:55.323 TV ON spike 15
+01-03 04:14:55.323 TV ON spike 15
+01-03 04:14:55.323 TV ON spike 15
+01-03 04:14:55.323 TV ON spike 15
+01-03 04:14:55.323 TV ON spike5 15
+01-03 04:14:55.323 TV ON spike 15
+01-03 04:14:55.323 TV ON spike 15
+01-03 04:14:55.323 TV ON spike 15
+01-03 04:14:55.323 TV ON cnn 15
+01-03 04:14:55.323 TV ON cnn 15
+01-03 04:14:55.323 TV ON cnn 15
+01-03 04:14:55.323 TV ON espn 15
+01-03 04:14:55.323 TV ON espn 15
+01-03 04:14:55.323 TV ON espn 15
+01-03 04:14:55.323 TV ON espn 15
+01-03 04:14:55.323 TV ON mtv 15
+01-03 04:14:55.323 TV ON history 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON hbo 15
+01-03 04:14:55.323 TV ON cnn 15
+01-03 04:14:55.323 TV ON cnn 15
+01-03 04:14:55.323 TV ON amc 15
+01-03 04:14:55.323 TV ON amc 15
+01-03 04:14:55.323 TV ON hln 15
+01-03 04:14:55.323 TV ON hln 15
+01-03 04:14:55.323 TV ON hln 15
+01-03 04:14:55.323 TV ON lifetime 15
+01-04 04:14:55.323 TV ON lifetime 15
+01-04 04:14:55.323 TV ON lifetime 15
+01-04 04:14:55.323 TV ON mtv 15
+01-04 04:14:55.323 TV ON mtv 15
+01-04 04:14:55.323 TV ON spike 15
+01-04 04:14:55.323 TV ON spike 15
+01-04 04:14:55.323 TV ON spike 15
+01-04 04:14:55.323 TV ON spike 15
+01-04 04:14:55.323 TV ON spike5 15
+01-04 04:14:55.323 TV ON spike 15
+01-04 04:14:55.323 TV ON spike 15
+01-04 04:14:55.323 TV ON spike 15
+01-04 04:14:55.323 TV ON history 15
+01-04 04:14:55.323 TV ON hbo 15
+
+
+=========
+
+Date    Time         type       status    mode  currentTempreature  HeatTempreature SetTemreature   
+01-03 04:14:55.319  THERMOSTAT    ON       ON        79                  68             70
+		  
